@@ -37,7 +37,7 @@ func IsRunning() (bool, error) {
 		return true, nil
 	}
 	if execErr, ok := err.(*exec.Error); ok {
-		if _, ok := execErr.Err.(*os.PathError); ok {
+		if execErr.Err == os.ErrNotExist {
 			// Executable could not be found, or could not be executed.
 			return false, nil
 		}
@@ -232,6 +232,13 @@ func runCommand(args ...string) error {
 
 // Stop stops the service.
 func (s *Service) Stop() error {
+	installed, err := s.Installed()
+	if err != nil {
+		return err
+	}
+	if !installed {
+		return nil
+	}
 	running, err := s.Running()
 	if err != nil {
 		return errors.Trace(err)
