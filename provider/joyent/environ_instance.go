@@ -102,6 +102,8 @@ func (env *joyentEnviron) StartInstance(args environs.StartInstanceParams) (*env
 	if err != nil {
 		return nil, err
 	}
+	logger.Infof("start instance using package: %q {%s}, image: {%s}",
+		spec.InstanceType.Name, spec.InstanceType.Id, spec.Image.Id)
 	tools, err := args.Tools.Match(tools.Filter{Arch: spec.Image.Arch})
 	if err != nil {
 		return nil, errors.Errorf("chosen architecture %v not present in %v", spec.Image.Arch, arches)
