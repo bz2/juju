@@ -69,7 +69,7 @@ type serviceStatus struct {
 	CanUpgradeTo  string                `json:"can-upgrade-to,omitempty" yaml:"can-upgrade-to,omitempty"`
 	Exposed       bool                  `json:"exposed" yaml:"exposed"`
 	Life          string                `json:"life,omitempty" yaml:"life,omitempty"`
-	StatusInfo    statusInfoContents    `json:"service-status,omitempty" yaml:"service-status,omitempty"`
+	StatusInfo    statusInfoContents    `json:"service-status,omitempty" yaml:"service-status"`
 	Relations     map[string][]string   `json:"relations,omitempty" yaml:"relations,omitempty"`
 	Networks      map[string][]string   `json:"networks,omitempty" yaml:"networks,omitempty"`
 	SubordinateTo []string              `json:"subordinate-to,omitempty" yaml:"subordinate-to,omitempty"`
@@ -102,8 +102,8 @@ type meterStatus struct {
 
 type unitStatus struct {
 	// New Juju Health Status fields.
-	WorkloadStatusInfo statusInfoContents `json:"workload-status,omitempty" yaml:"workload-status,omitempty"`
-	AgentStatusInfo    statusInfoContents `json:"agent-status,omitempty" yaml:"agent-status,omitempty"`
+	WorkloadStatusInfo statusInfoContents `json:"workload-status,omitempty" yaml:"workload-status"`
+	AgentStatusInfo    statusInfoContents `json:"agent-status,omitempty" yaml:"agent-status"`
 	MeterStatus        *meterStatus       `json:"meter-status,omitempty" yaml:"meter-status,omitempty"`
 
 	// Legacy status fields, to be removed in Juju 2.0
@@ -154,7 +154,6 @@ func (s unitStatus) MarshalJSON() ([]byte, error) {
 	return json.Marshal(unitStatusNoMarshal(s))
 }
 
-//func (s unitStatus) GetYAML() (tag string, value interface{}) {
 func (s unitStatus) MarshalYAML() (interface{}, error) {
 	if s.Err != nil {
 		return errorStatus{s.Err.Error()}, nil
@@ -180,7 +179,6 @@ func (n networkStatus) MarshalJSON() ([]byte, error) {
 	return json.Marshal(nNoMethods(n))
 }
 
-//func (n networkStatus) GetYAML() (tag string, value interface{}) {
 func (n networkStatus) MarshalYAML() (interface{}, error) {
 	if n.Err != nil {
 		return errorStatus{n.Err.Error()}, nil
