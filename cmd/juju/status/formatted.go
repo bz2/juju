@@ -50,16 +50,17 @@ func (s machineStatus) MarshalJSON() ([]byte, error) {
 	return json.Marshal(machineStatusNoMarshal(s))
 }
 
-func (s machineStatus) GetYAML() (tag string, value interface{}) {
+//func (s machineStatus) GetYAML() (tag string, value interface{}) {
+func (s machineStatus) MarshalYAML() (interface{}, error) {
 	if s.Err != nil {
-		return "", errorStatus{s.Err.Error()}
+		return errorStatus{s.Err.Error()}, nil
 	}
 	// TODO(rog) rename mNoMethods to noMethods (and also in
 	// the other GetYAML methods) when people are using the non-buggy
 	// goyaml version. // TODO(jw4) however verify that gccgo does not
 	// complain about symbol already defined.
 	type mNoMethods machineStatus
-	return "", mNoMethods(s)
+	return mNoMethods(s), nil
 }
 
 type serviceStatus struct {
@@ -85,12 +86,13 @@ func (s serviceStatus) MarshalJSON() ([]byte, error) {
 	return json.Marshal(ssNoMethods(s))
 }
 
-func (s serviceStatus) GetYAML() (tag string, value interface{}) {
+//func (s serviceStatus) GetYAML() (tag string, value interface{}) {
+func (s serviceStatus) MarshalYAML() (interface{}, error) {
 	if s.Err != nil {
-		return "", errorStatus{s.Err.Error()}
+		return errorStatus{s.Err.Error()}, nil
 	}
 	type ssNoMethods serviceStatus
-	return "", ssNoMethods(s)
+	return ssNoMethods(s), nil
 }
 
 type meterStatus struct {
@@ -135,12 +137,12 @@ func (s statusInfoContents) MarshalJSON() ([]byte, error) {
 	return json.Marshal(statusInfoContentsNoMarshal(s))
 }
 
-func (s statusInfoContents) GetYAML() (tag string, value interface{}) {
+func (s statusInfoContents) MarshalYAML() (interface{}, error) {
 	if s.Err != nil {
-		return "", errorStatus{s.Err.Error()}
+		return errorStatus{s.Err.Error()}, nil
 	}
 	type sicNoMethods statusInfoContents
-	return "", sicNoMethods(s)
+	return sicNoMethods(s), nil
 }
 
 type unitStatusNoMarshal unitStatus
@@ -152,12 +154,13 @@ func (s unitStatus) MarshalJSON() ([]byte, error) {
 	return json.Marshal(unitStatusNoMarshal(s))
 }
 
-func (s unitStatus) GetYAML() (tag string, value interface{}) {
+//func (s unitStatus) GetYAML() (tag string, value interface{}) {
+func (s unitStatus) MarshalYAML() (interface{}, error) {
 	if s.Err != nil {
-		return "", errorStatus{s.Err.Error()}
+		return errorStatus{s.Err.Error()}, nil
 	}
 	type usNoMethods unitStatus
-	return "", usNoMethods(s)
+	return usNoMethods(s), nil
 }
 
 type networkStatus struct {
@@ -177,10 +180,11 @@ func (n networkStatus) MarshalJSON() ([]byte, error) {
 	return json.Marshal(nNoMethods(n))
 }
 
-func (n networkStatus) GetYAML() (tag string, value interface{}) {
+//func (n networkStatus) GetYAML() (tag string, value interface{}) {
+func (n networkStatus) MarshalYAML() (interface{}, error) {
 	if n.Err != nil {
-		return "", errorStatus{n.Err.Error()}
+		return errorStatus{n.Err.Error()}, nil
 	}
 	type nNoMethods networkStatus
-	return "", nNoMethods(n)
+	return nNoMethods(n), nil
 }
