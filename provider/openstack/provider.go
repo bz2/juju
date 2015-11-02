@@ -18,6 +18,7 @@ import (
 	"github.com/juju/names"
 	"github.com/juju/utils"
 	"github.com/juju/utils/arch"
+	"github.com/juju/utils/clock"
 	"gopkg.in/goose.v1/client"
 	gooseerrors "gopkg.in/goose.v1/errors"
 	"gopkg.in/goose.v1/identity"
